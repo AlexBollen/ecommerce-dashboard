@@ -20,6 +20,7 @@ import DefaultLayout from './layout/DefaultLayout';
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
+  const isSignInPage = window.location.pathname === "/"
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -29,6 +30,8 @@ function App() {
     setTimeout(() => setLoading(false), 1000);
   }, []);
 
+  if (isSignInPage) return <SignIn />
+
   return loading ? (
     <Loader />
   ) : (
@@ -36,6 +39,15 @@ function App() {
       <Routes>
         <Route
           index
+          element={
+            <>
+              <PageTitle title="SignIn | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <SignIn />
+            </>
+          }
+        />
+        <Route
+          path="/dashboard"
           element={
             <>
               <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
