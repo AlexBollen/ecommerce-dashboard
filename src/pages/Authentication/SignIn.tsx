@@ -2,12 +2,14 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
-import api from '../../utils/api'
+import api from '../../utils/api';
+import { useAuth } from '../../utils/AuthContext';
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const { login } = useAuth();
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
@@ -17,14 +19,12 @@ const SignIn: React.FC = () => {
       password: password,
     };
     try {
-      const { data } = await api.post(
-        '/auth/login',
-        form,
-      );
+      const { data } = await api.post('/auth/login', form);
       localStorage.setItem('sub', data.sub);
       localStorage.setItem('name', data.name);
       localStorage.setItem('role', data.role);
       localStorage.setItem('token', data.token);
+      login(data.token);
       navigate('/dashboard');
     } catch (error: any) {
       if (error.status === 401) {
