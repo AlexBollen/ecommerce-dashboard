@@ -2,10 +2,10 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
-import axios from 'axios';
+import api from '../../utils/api'
 
 const SignIn: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -17,13 +17,18 @@ const SignIn: React.FC = () => {
       password: password,
     };
     try {
-      const { data } = await axios.post('http://localhost:3000/auth/login', form);
-      localStorage.setItem('sub', data.sub)
+      const { data } = await api.post(
+        '/auth/login',
+        form,
+      );
+      localStorage.setItem('sub', data.sub);
+      localStorage.setItem('name', data.name);
+      localStorage.setItem('role', data.role);
       localStorage.setItem('token', data.token);
-      navigate('/dashboard')
-    } catch(error: any) {
+      navigate('/dashboard');
+    } catch (error: any) {
       if (error.status === 401) {
-        console.log(`Error: ${error.response.data.message}`)
+        console.log(`Error: ${error.response.data.message}`);
       }
     }
   };

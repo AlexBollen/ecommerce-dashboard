@@ -17,10 +17,12 @@ import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
 
+// import ProtectedRoutes from './utils/ProtectedRoutes';
+
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
-  const isSignInPage = window.location.pathname === "/"
+  const isSignInPage = window.location.pathname === '/';
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -30,7 +32,7 @@ function App() {
     setTimeout(() => setLoading(false), 1000);
   }, []);
 
-  if (isSignInPage) return <SignIn />
+  if (isSignInPage) return <SignIn />;
 
   return loading ? (
     <Loader />
@@ -41,7 +43,7 @@ function App() {
           index
           element={
             <>
-              <PageTitle title="SignIn | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <PageTitle title="Sign in | TailAdmin" />
               <SignIn />
             </>
           }
