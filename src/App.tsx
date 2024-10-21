@@ -17,8 +17,7 @@ import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
 import ProtectedRoutes from './utils/ProtectedRoutes';
-
-// import ProtectedRoutes from './utils/ProtectedRoutes';
+import { NotFound } from './pages/Authentication/NotFound';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -41,6 +40,15 @@ function App() {
     <DefaultLayout>
       <Routes>
         <Route element={<ProtectedRoutes />}>
+          <Route
+            path="*"
+            element={
+              <>
+                <PageTitle title="404 Page Not Found" />
+                <NotFound />
+              </>
+            }
+          />
           <Route
             index
             element={
