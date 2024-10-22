@@ -18,6 +18,7 @@ import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import { NotFound } from './pages/Authentication/NotFound';
+import Inventory from './pages/Inventory/Inventory';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -109,6 +110,15 @@ function App() {
               <>
                 <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" />
                 <Tables />
+              </>
+            }
+          />
+          <Route
+            path="/inventory"
+            element={
+              <>
+                <PageTitle title="Inventario | TailAdmin" />
+                <Inventory />
               </>
             }
           />
