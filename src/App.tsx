@@ -19,6 +19,7 @@ import DefaultLayout from './layout/DefaultLayout';
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import { NotFound } from './pages/Authentication/NotFound';
 import Inventory from './pages/Inventory/Inventory';
+import ProductTransfer from './pages/Product-Transfer/ProductTransfer';
 import BestSellingProduct from './pages/Reports/BestSellingProduct';
 
 function App() {
@@ -120,6 +121,15 @@ function App() {
               <>
                 <PageTitle title="Inventario | TailAdmin" />
                 <Inventory />
+              </>
+            }
+          />
+          <Route
+            path="/productTransfer"
+            element={
+              <>
+                <PageTitle title="Transferencias Producto | TailAdmin" />
+                < ProductTransfer/>
               </>
             }
           />
