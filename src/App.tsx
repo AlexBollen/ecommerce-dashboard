@@ -19,6 +19,7 @@ import DefaultLayout from './layout/DefaultLayout';
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import { NotFound } from './pages/Authentication/NotFound';
 import Inventory from './pages/Inventory/Inventory';
+import BestSellingProduct from './pages/Reports/BestSellingProduct';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -173,6 +174,15 @@ function App() {
               <>
                 <PageTitle title="Signup | TailAdmin - Tailwind CSS Admin Dashboard Template" />
                 <SignUp />
+              </>
+            }
+          />
+          <Route
+            path="/BestSellingProduct"
+            element={
+              <>
+                <PageTitle title="Reporte uno | TailAdmin" />
+                <BestSellingProduct />
               </>
             }
           />
