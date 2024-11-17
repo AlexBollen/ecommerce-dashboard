@@ -452,6 +452,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               Productos más rentables
                             </NavLink>
                           </li>
+                          <li>
+                            <NavLink
+                              to="/LowQuantityProduct"
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              Productos con stock bajo
+                            </NavLink>
+                          </li>
                           
                         </ul>
                       </div>

@@ -21,6 +21,7 @@ import { NotFound } from './pages/Authentication/NotFound';
 import Inventory from './pages/Inventory/Inventory';
 import ProductTransfer from './pages/Product-Transfer/ProductTransfer';
 import BestSellingProduct from './pages/Reports/BestSellingProduct';
+import LowQuantityProduct from './pages/Reports/LowQuantityProduct';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -193,6 +194,15 @@ function App() {
               <>
                 <PageTitle title="Reporte uno | TailAdmin" />
                 <BestSellingProduct />
+              </>
+            }
+          />
+           <Route
+            path="/LowQuantityProduct"
+            element={
+              <>
+                <PageTitle title="Reporte dos | TailAdmin" />
+                <LowQuantityProduct />
               </>
             }
           />
