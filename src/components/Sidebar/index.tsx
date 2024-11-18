@@ -449,7 +449,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Productos más rentables
+                              Más rentables
                             </NavLink>
                           </li>
                           <li>
@@ -460,9 +460,32 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Productos con stock bajo
+                              Stock bajo cantidad
                             </NavLink>
                           </li>
+                          <li>
+                            <NavLink
+                              to="/ProductByMonth"
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              Gráfica más vendidos
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              to="/ProductByMonthAndAgency"
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              Más vendidos
+                            </NavLink>
+                          </li>
+                          
                           
                         </ul>
                       </div>

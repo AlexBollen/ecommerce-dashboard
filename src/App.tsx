@@ -22,6 +22,8 @@ import Inventory from './pages/Inventory/Inventory';
 import ProductTransfer from './pages/Product-Transfer/ProductTransfer';
 import BestSellingProduct from './pages/Reports/BestSellingProduct';
 import LowQuantityProduct from './pages/Reports/LowQuantityProduct';
+import ProductByMonth from './pages/Reports/ProductByMounth';
+import ProductByMonthAndAgency from './pages/Reports/ProductByMounthAndAgency';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -203,6 +205,24 @@ function App() {
               <>
                 <PageTitle title="Reporte dos | TailAdmin" />
                 <LowQuantityProduct />
+              </>
+            }
+          />
+            <Route
+            path="/ProductByMonth"
+            element={
+              <>
+                <PageTitle title="Reporte tres | TailAdmin" />
+                <ProductByMonth />
+              </>
+            }
+          />
+           <Route
+            path="/ProductByMonthAndAgency"
+            element={
+              <>
+                <PageTitle title="Reporte cuatro | TailAdmin" />
+                <ProductByMonthAndAgency />
               </>
             }
           />
