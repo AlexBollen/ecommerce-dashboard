@@ -687,6 +687,47 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </li>
               <li>
                 <NavLink
+                  to="/roles"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes('chart') && 'bg-graydark dark:bg-meta-4'
+                  }`}
+                >
+                  <svg
+                    width="19"
+                    height="19"
+                    viewBox="0 0 48.00 48.00"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#ffffff"
+                    stroke="#ffffff"
+                    stroke-width="0.00048000000000000007"
+                  >
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                      {' '}
+                      <title>network-role</title>{' '}
+                      <g id="Layer_2" data-name="Layer 2">
+                        {' '}
+                        <g id="invisible_box" data-name="invisible box">
+                          {' '}
+                          <rect width="48" height="48" fill="none"></rect>{' '}
+                        </g>{' '}
+                        <g id="Q3_icons" data-name="Q3 icons">
+                          {' '}
+                          <path d="M42,24l-6-6v4H19.7a7.4,7.4,0,0,0-1.6-3.2L26.8,10H36v4l6-6L36,2V6H25.2L15.1,16.1l-.3.4A8.7,8.7,0,0,0,12,16a8,8,0,0,0,0,16,8.7,8.7,0,0,0,2.8-.5l.3.4L25.2,42.1H36V46l6-6-6-6v4.1H26.8l-8.7-8.9A8.8,8.8,0,0,0,19.7,26H36v4ZM12,28a4,4,0,1,1,4-4A4,4,0,0,1,12,28Z"></path>{' '}
+                        </g>{' '}
+                      </g>{' '}
+                    </g>
+                  </svg>
+                  Roles
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
                   to="/chart"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                     pathname.includes('chart') && 'bg-graydark dark:bg-meta-4'

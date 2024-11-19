@@ -27,6 +27,7 @@ import ProductByMonthAndAgency from './pages/Reports/ProductByMounthAndAgency';
 import BestCustomer from './pages/Reports/BestCustomer';
 import Users from './pages/Settings/Users';
 import SaleByDate from './pages/Reports/SaleByDate';
+import Roles from './pages/Settings/Roles';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -135,7 +136,7 @@ function App() {
             element={
               <>
                 <PageTitle title="Transferencias Producto | TailAdmin" />
-                < ProductTransfer/>
+                <ProductTransfer />
               </>
             }
           />
@@ -149,11 +150,20 @@ function App() {
             }
           />
           <Route
-            path='/users'
+            path="/users"
             element={
               <>
-                <PageTitle title='Usuarios | Store Online S.A.' />
+                <PageTitle title="Usuarios | Store Online S.A." />
                 <Users />
+              </>
+            }
+          />
+          <Route
+            path="/roles"
+            element={
+              <>
+                <PageTitle title="Roles | Store Online S.A." />
+                <Roles />
               </>
             }
           />
@@ -211,7 +221,7 @@ function App() {
               </>
             }
           />
-           <Route
+          <Route
             path="/LowQuantityProduct"
             element={
               <>
@@ -220,7 +230,7 @@ function App() {
               </>
             }
           />
-            <Route
+          <Route
             path="/ProductByMonth"
             element={
               <>
@@ -229,7 +239,7 @@ function App() {
               </>
             }
           />
-           <Route
+          <Route
             path="/ProductByMonthAndAgency"
             element={
               <>
@@ -238,7 +248,7 @@ function App() {
               </>
             }
           />
-           <Route
+          <Route
             path="/BestCustomer"
             element={
               <>
@@ -247,7 +257,7 @@ function App() {
               </>
             }
           />
-           <Route
+          <Route
             path="/SaleByDate"
             element={
               <>
