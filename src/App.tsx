@@ -26,6 +26,7 @@ import ProductByMonth from './pages/Reports/ProductByMounth';
 import ProductByMonthAndAgency from './pages/Reports/ProductByMounthAndAgency';
 import BestCustomer from './pages/Reports/BestCustomer';
 import Users from './pages/Settings/Users';
+import SaleByDate from './pages/Reports/SaleByDate';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -243,6 +244,15 @@ function App() {
               <>
                 <PageTitle title="Reporte cinco | TailAdmin" />
                 <BestCustomer />
+              </>
+            }
+          />
+           <Route
+            path="/SaleByDate"
+            element={
+              <>
+                <PageTitle title="Reporte seis | TailAdmin" />
+                <SaleByDate />
               </>
             }
           />
