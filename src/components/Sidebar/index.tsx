@@ -485,6 +485,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               Más vendidos
                             </NavLink>
                           </li>
+                          <li>
+                            <NavLink
+                              to="/BestCustomer"
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              Clientes estrellas
+                            </NavLink>
+                          </li>
                           
                           
                         </ul>
