@@ -24,6 +24,7 @@ import BestSellingProduct from './pages/Reports/BestSellingProduct';
 import LowQuantityProduct from './pages/Reports/LowQuantityProduct';
 import ProductByMonth from './pages/Reports/ProductByMounth';
 import ProductByMonthAndAgency from './pages/Reports/ProductByMounthAndAgency';
+import BestCustomer from './pages/Reports/BestCustomer';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -223,6 +224,15 @@ function App() {
               <>
                 <PageTitle title="Reporte cuatro | TailAdmin" />
                 <ProductByMonthAndAgency />
+              </>
+            }
+          />
+           <Route
+            path="/BestCustomer"
+            element={
+              <>
+                <PageTitle title="Reporte cinco | TailAdmin" />
+                <BestCustomer />
               </>
             }
           />
