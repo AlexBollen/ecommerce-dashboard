@@ -33,6 +33,7 @@ function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
   const isSignInPage = window.location.pathname === '/';
+  const role = localStorage.getItem('role');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -149,24 +150,28 @@ function App() {
               </>
             }
           />
-          <Route
-            path="/users"
-            element={
-              <>
-                <PageTitle title="Usuarios | Store Online S.A." />
-                <Users />
-              </>
-            }
-          />
-          <Route
-            path="/roles"
-            element={
-              <>
-                <PageTitle title="Roles | Store Online S.A." />
-                <Roles />
-              </>
-            }
-          />
+          {role === 'Gerente' && (
+            <Route
+              path="/users"
+              element={
+                <>
+                  <PageTitle title="Usuarios | Store Online S.A." />
+                  <Users />
+                </>
+              }
+            />
+          )}
+          {role === 'Gerente' && (
+            <Route
+              path="/roles"
+              element={
+                <>
+                  <PageTitle title="Roles | Store Online S.A." />
+                  <Roles />
+                </>
+              }
+            />
+          )}
           <Route
             path="/chart"
             element={
@@ -212,60 +217,72 @@ function App() {
               </>
             }
           />
-          <Route
-            path="/BestSellingProduct"
-            element={
-              <>
-                <PageTitle title="Reporte uno | TailAdmin" />
-                <BestSellingProduct />
-              </>
-            }
-          />
-          <Route
-            path="/LowQuantityProduct"
-            element={
-              <>
-                <PageTitle title="Reporte dos | TailAdmin" />
-                <LowQuantityProduct />
-              </>
-            }
-          />
-          <Route
-            path="/ProductByMonth"
-            element={
-              <>
-                <PageTitle title="Reporte tres | TailAdmin" />
-                <ProductByMonth />
-              </>
-            }
-          />
-          <Route
-            path="/ProductByMonthAndAgency"
-            element={
-              <>
-                <PageTitle title="Reporte cuatro | TailAdmin" />
-                <ProductByMonthAndAgency />
-              </>
-            }
-          />
-          <Route
-            path="/BestCustomer"
-            element={
-              <>
-                <PageTitle title="Reporte cinco | TailAdmin" />
-                <BestCustomer />
-              </>
-            }
-          />
-          <Route
-            path="/SaleByDate"
-            element={
-              <>
-                <PageTitle title="Reporte seis | TailAdmin" />
-                <SaleByDate />
-              </>
-            }
-          />
+          {role === 'Gerente' && (
+            <Route
+              path="/BestSellingProduct"
+              element={
+                <>
+                  <PageTitle title="Reporte uno | TailAdmin" />
+                  <BestSellingProduct />
+                </>
+              }
+            />
+          )}
+          {role === 'Gerente' && (
+            <Route
+              path="/LowQuantityProduct"
+              element={
+                <>
+                  <PageTitle title="Reporte dos | TailAdmin" />
+                  <LowQuantityProduct />
+                </>
+              }
+            />
+          )}
+          {role === 'Gerente' && (
+            <Route
+              path="/ProductByMonth"
+              element={
+                <>
+                  <PageTitle title="Reporte tres | TailAdmin" />
+                  <ProductByMonth />
+                </>
+              }
+            />
+          )}
+          {role === 'Gerente' && (
+            <Route
+              path="/ProductByMonthAndAgency"
+              element={
+                <>
+                  <PageTitle title="Reporte cuatro | TailAdmin" />
+                  <ProductByMonthAndAgency />
+                </>
+              }
+            />
+          )}
+          {role === 'Gerente' && (
+            <Route
+              path="/BestCustomer"
+              element={
+                <>
+                  <PageTitle title="Reporte cinco | TailAdmin" />
+                  <BestCustomer />
+                </>
+              }
+            />
+          )}
+          {role === 'Gerente' && (
+            <Route
+              path="/SaleByDate"
+              element={
+                <>
+                  <PageTitle title="Reporte seis | TailAdmin" />
+                  <SaleByDate />
+                </>
+              }
+            />
+          )}
         </Route>
       </Routes>
     </DefaultLayout>
