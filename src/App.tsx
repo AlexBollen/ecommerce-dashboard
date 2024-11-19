@@ -25,6 +25,7 @@ import LowQuantityProduct from './pages/Reports/LowQuantityProduct';
 import ProductByMonth from './pages/Reports/ProductByMounth';
 import ProductByMonthAndAgency from './pages/Reports/ProductByMounthAndAgency';
 import BestCustomer from './pages/Reports/BestCustomer';
+import Users from './pages/Settings/Users';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -143,6 +144,15 @@ function App() {
               <>
                 <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" />
                 <Settings />
+              </>
+            }
+          />
+          <Route
+            path='/users'
+            element={
+              <>
+                <PageTitle title='Usuarios | Store Online S.A.' />
+                <Users />
               </>
             }
           />
