@@ -27,6 +27,7 @@ import ProductByMonthAndAgency from './pages/Reports/ProductByMounthAndAgency';
 import BestCustomer from './pages/Reports/BestCustomer';
 import Users from './pages/Settings/Users';
 import SaleByDate from './pages/Reports/SaleByDate';
+import HistoricalSales from './pages/Reports/HistoricalSales';
 import Roles from './pages/Settings/Roles';
 
 function App() {
@@ -279,6 +280,17 @@ function App() {
                 <>
                   <PageTitle title="Reporte seis | TailAdmin" />
                   <SaleByDate />
+                </>
+              }
+            />
+          )}
+          {role === 'Gerente' && (
+            <Route
+              path="/HistoricalSales"
+              element={
+                <>
+                  <PageTitle title="Reporte siete | TailAdmin" />
+                  <HistoricalSales />
                 </>
               }
             />
