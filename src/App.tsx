@@ -27,6 +27,7 @@ import ProductByMonthAndAgency from './pages/Reports/ProductByMounthAndAgency';
 import BestCustomer from './pages/Reports/BestCustomer';
 import Users from './pages/Settings/Users';
 import SaleByDate from './pages/Reports/SaleByDate';
+import HistoricalSales from './pages/Reports/HistoricalSales';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -253,6 +254,15 @@ function App() {
               <>
                 <PageTitle title="Reporte seis | TailAdmin" />
                 <SaleByDate />
+              </>
+            }
+          />
+           <Route
+            path="/HistoricalSales"
+            element={
+              <>
+                <PageTitle title="Reporte siete | TailAdmin" />
+                <HistoricalSales />
               </>
             }
           />

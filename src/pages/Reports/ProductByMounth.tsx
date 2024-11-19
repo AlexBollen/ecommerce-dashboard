@@ -1,4 +1,4 @@
-import ChartProductByMonth from '../../components/Reports/ProductByMounth';
+import ChartProductByMonth from '../../components/Reports/ProductByMounthChart';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 
 const ProductByMonth = () => {
