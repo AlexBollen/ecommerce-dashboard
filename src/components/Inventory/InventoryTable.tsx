@@ -31,7 +31,7 @@ const InventoryTable = () => {
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-start justify-between py-6 px-4 md:px-6 xl:px-7.5">
           <h4 className="text-xl font-semibold text-black dark:text-white">
-            Productos
+            Administra y gestiona los productos
           </h4>
           <div className="flex w-full max-w-45 justify-end">
             <Link

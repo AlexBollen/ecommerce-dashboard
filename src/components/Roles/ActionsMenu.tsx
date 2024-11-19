@@ -9,14 +9,14 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { User } from '../../types/user';
+import { Role } from '../../types/role';
 import api from '../../utils/api';
 
 const ActionsMenu = ({
   rowData,
   onActionComplete,
 }: {
-  rowData: User;
+  rowData: Role;
   onActionComplete: () => void;
 }) => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -36,7 +36,7 @@ const ActionsMenu = ({
 
   const handleConfirmDelete = async () => {
     try {
-      await api.put(`/users/${rowData.id_usuario}`);
+      await api.put(`/roles/${rowData.id_rol}`);
       setOpenDialog(false);
       onActionComplete();
     } catch (error) {
@@ -61,7 +61,7 @@ const ActionsMenu = ({
           aria-labelledby="form-dialog-title"
         >
           <DialogContent className="dark:bg-boxdark">
-            <h1>Editar usuario</h1>
+            <h1>Editar rol</h1>
           </DialogContent>
         </Dialog>
       )}
@@ -75,7 +75,7 @@ const ActionsMenu = ({
         </DialogTitle>
         <DialogContent>
           <Typography variant="body1">
-            ¿Está seguro de eliminar este usuario?
+            ¿Está seguro de eliminar este rol?
           </Typography>
           <Stack
             direction="row"
