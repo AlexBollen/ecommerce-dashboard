@@ -1,24 +1,27 @@
 import { useEffect, useState } from 'react';
 import api from '../../utils/api';
-import { User } from '../../types/user';
+import { Role } from '../../types/role';
 import { Link } from 'react-router-dom';
 import { Dialog, DialogContent } from '@mui/material';
-import FormAddUser from './FormAddUser';
 import ActionsMenu from './ActionsMenu';
+import FormAddRole from './FormAddRole';
 
-const UsersTable = () => {
-  const [usersData, setUsersData] = useState<User[]>([]);
+const RolesTable = () => {
+  const [rolesData, setRolesData] = useState<Role[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [newMode, setNewMode] = useState(false);
 
-  const fetchUsers = async (page = 1) => {
+  const fetchRoles = async (page = 1) => {
     try {
-      const response = await api.get('/users', {
-        params: { page: page, limit: pageSize },
+      const response = await api.get('/roles', {
+        params: {
+          page: page,
+          limit: pageSize,
+        },
       });
-      setUsersData(response.data.data);
+      setRolesData(response.data.data);
       setTotalPages(response.data.totalPages);
       setCurrentPage(page);
     } catch (error) {
@@ -27,28 +30,27 @@ const UsersTable = () => {
   };
 
   useEffect(() => {
-    fetchUsers(currentPage);
+    fetchRoles(currentPage);
   }, [pageSize]);
 
-  const handleNewUser = () => {
-    setNewMode(true);
+  const handleCloseNewRole = () => {
+    setNewMode(false);
   };
 
-  const handleCloseNewUser = () => {
-    setNewMode(false)
-  }
-
+  const handleNewRole = () => {
+    setNewMode(true);
+  };
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-start justify-between py-6 px-4 md:px-6 xl:px-7.5">
           <h4 className="text-xl font-semibold text-black dark:text-white">
-            Administra y gestiona los usuarios
+            Administra y gestiona los roles
           </h4>
           <div className="flex w-full max-w-45 justify-end">
             <Link
               to="#"
-              onClick={handleNewUser}
+              onClick={handleNewRole}
               className="inline-flex items-center justify-center rounded-md bg-primary py-2 px-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-4 xl:px-5"
             >
               Agregar
@@ -57,43 +59,41 @@ const UsersTable = () => {
         </div>
 
         <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
-          <div className="col-span-3 flex items-center">
-            <p className="font-medium">Empleado</p>
+          <div className="col-span-1 flex items-center">
+            <p className="font-medium">Id</p>
           </div>
           <div className="col-span-2 hidden items-center sm:flex">
-            <p className="font-medium">Username</p>
+            <p className="font-medium">Nombre rol</p>
           </div>
-          <div className="col-span-2 flex items-center">
-            <p className="font-medium">Rol</p>
+          <div className="col-span-4 flex items-center">
+            <p className="font-medium">Descripción rol</p>
           </div>
           <div className="col-span-1 flex items-center">
             <p className="font-medium">Acciones</p>
           </div>
         </div>
 
-        {usersData.map((user, key) => (
+        {rolesData.map((role, key) => (
           <div
             className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
             key={key}
           >
-            <div className="col-span-3 hidden items-center sm:flex">
+            <div className="col-span-1 hidden items-center sm:flex">
               <p className="text-sm text-black dark:text-white">
-                {user.nombre_persona}
+                {role.id_rol}
               </p>
             </div>
             <div className="col-span-2 hidden items-center sm:flex">
               <p className="text-sm text-black dark:text-white">
-                {user.username}
+                {role.nombre_rol}
               </p>
             </div>
-            <div className="col-span-2 hidden items-center sm:flex">
+            <div className="col-span-4 hidden items-center sm:flex">
               <p className="text-sm text-black dark:text-white">
-                {user.role.nombre_rol}
+                {role.descripcion_rol}
               </p>
             </div>
-            <div className="flex items-center space-x-3.5">
-              <ActionsMenu rowData={user} onActionComplete={fetchUsers} />
-            </div>
+            <ActionsMenu rowData={role} onActionComplete={fetchRoles} />
           </div>
         ))}
       </div>
@@ -104,7 +104,7 @@ const UsersTable = () => {
             value={pageSize}
             onChange={(e) => {
               setPageSize(Number(e.target.value));
-              fetchUsers(1);
+              fetchRoles(1);
             }}
             className="border rounded px-2 py-1 dark:border-form-strokedark dark:bg-form-input"
           >
@@ -115,7 +115,7 @@ const UsersTable = () => {
         </div>
         <button
           disabled={currentPage === 1}
-          onClick={() => fetchUsers(currentPage - 1)}
+          onClick={() => fetchRoles(currentPage - 1)}
           className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 dark:border-form-strokedark dark:bg-form-input"
         >
           Anterior
@@ -125,7 +125,7 @@ const UsersTable = () => {
         </p>
         <button
           disabled={currentPage === totalPages}
-          onClick={() => fetchUsers(currentPage + 1)}
+          onClick={() => fetchRoles(currentPage + 1)}
           className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 dark:border-form-strokedark dark:bg-form-input"
         >
           Siguiente
@@ -139,7 +139,10 @@ const UsersTable = () => {
           aria-labelledby="form-dialog-title"
         >
           <DialogContent className="dark:bg-boxdark">
-            <FormAddUser onActionComplete={fetchUsers} onClose={handleCloseNewUser}/>
+            <FormAddRole
+              onActionComplete={fetchRoles}
+              onClose={handleCloseNewRole}
+            />
           </DialogContent>
         </Dialog>
       )}
@@ -147,4 +150,4 @@ const UsersTable = () => {
   );
 };
 
-export default UsersTable;
+export default RolesTable;
