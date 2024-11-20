@@ -29,6 +29,7 @@ import Users from './pages/Settings/Users';
 import SaleByDate from './pages/Reports/SaleByDate';
 import HistoricalSales from './pages/Reports/HistoricalSales';
 import Roles from './pages/Settings/Roles';
+import POS from './pages/POS/POS';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -94,6 +95,15 @@ function App() {
               <>
                 <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
                 <Profile />
+              </>
+            }
+          />
+          <Route
+            path="/pos"
+            element={
+              <>
+                <PageTitle title="POS | Store Online S.A." />
+                <POS />
               </>
             }
           />
