@@ -24,6 +24,7 @@ const SignIn: React.FC = () => {
       localStorage.setItem('name', data.name);
       localStorage.setItem('role', data.role);
       localStorage.setItem('token', data.token);
+      localStorage.setItem('agency_employee', data.agency_employee)
       login(data.token);
       navigate('/dashboard');
     } catch (error: any) {
