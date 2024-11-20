@@ -5,8 +5,3 @@ const api = axios.create({
 })
 
 export default api;
-
-export const getAllTransferences = async () => {
-    const response = await axios.get(`${api}/product-transfer`);
-    return response.data;
-};

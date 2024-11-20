@@ -20,6 +20,7 @@ import ProtectedRoutes from './utils/ProtectedRoutes';
 import { NotFound } from './pages/Authentication/NotFound';
 import Inventory from './pages/Inventory/Inventory';
 import ProductTransfer from './pages/Product-Transfer/ProductTransfer';
+import NewProductTransfer from './pages/Product-Transfer/NewTransfer';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -129,6 +130,15 @@ function App() {
               <>
                 <PageTitle title="Transferencias Producto | TailAdmin" />
                 < ProductTransfer/>
+              </>
+            }
+          />
+          <Route
+            path="/newProductTransfer"
+            element={
+              <>
+                <PageTitle title="Nueva Transferencias Producto | TailAdmin" />
+                < NewProductTransfer/>
               </>
             }
           />
