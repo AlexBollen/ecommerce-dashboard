@@ -14,11 +14,18 @@ import { ProductPos } from '../../types/productsPos';
 import api from '../../utils/api';
 import { ClientSelect } from './ClientSelect';
 import { Customer } from '../../types/customer';
+import { useNavigate } from 'react-router-dom';
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 type LateralHelperProps = {
   selectedProducts: ProductPos[];
   transactionType: string;
 };
+
+interface State extends SnackbarOrigin {
+  open: boolean;
+}
 
 export function PosLateralHelper({
   selectedProducts,
@@ -28,6 +35,13 @@ export function PosLateralHelper({
   const user = localStorage.getItem('sub');
   const userId = user ? parseInt(user, 10) : null;
   const [customer, setCustomer] = useState<Customer>();
+  const navigate = useNavigate();
+  const [state, setState] = useState<State>({
+    open: false,
+    vertical: 'bottom',
+    horizontal: 'right',
+  });
+  const { vertical, horizontal, open } = state;
 
   useEffect(() => {
     setProducts(
@@ -59,28 +73,35 @@ export function PosLateralHelper({
         const data = {
           monto_total: total,
           cliente: customer?.id_cliente ?? null,
-          sucursal: 1,
+          sucursalId: 1,
           usuario: userId ?? null,
           lista_productos: products.map((product) => [
             product.id_producto,
             product.quantity,
           ]),
-          tipo_transaccion: transactionType === 'V' ? true : false,
+          tipo_transaccion: transactionType ? transactionType : 'V',
+          tipo: transactionType === 'V' ? true : false,
         };
         const response = await api.post('/quotes', data);
         if (response.status === 201) {
-          console.log('todo bien');
+          navigate('/dashboard');
         }
       } else {
-        console.log('Algo salio mal')
+        console.log('Algo salio mal');
+        setState({ ...state, open: true });
       }
     } catch (error) {
       console.error(error);
+      setState({ ...state, open: true });
     }
   };
 
   const handleCustomerSelect = (selectedCustomer: any) => {
     setCustomer(selectedCustomer);
+  };
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
   };
 
   return (
@@ -171,7 +192,7 @@ export function PosLateralHelper({
                       value={product.quantity}
                       style={{ width: '80px', textAlign: 'center' }}
                       min={1}
-                      max={product.existences || 100}
+                      max={product.existences}
                       onChange={(e) => {
                         const value = parseInt(e.target.value, 10) || 1;
                         handleQuantityChange(product.id_producto, value);
@@ -240,6 +261,26 @@ export function PosLateralHelper({
           </Stack>
         )}
       </CardContent>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        autoHideDuration={3000}
+        open={open}
+        key={vertical + horizontal}
+        onClose={handleClose}
+      >
+        <Alert
+          onClose={handleClose}
+          severity="error"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {customer !== undefined && customer !== null ? (
+            <h1>Algo salió mal!</h1>
+          ) : (
+            <h1>Debes asignar un cliente</h1>
+          )}
+        </Alert>
+      </Snackbar>
     </Card>
   );
 }
