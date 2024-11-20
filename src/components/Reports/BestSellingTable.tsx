@@ -5,22 +5,30 @@ import { TopSellingProductAgency } from '../../types/topSellingProductAgency';
 import ProductTwo from '../../images/product/product-02.png';
 
 import { Link } from 'react-router-dom';
-import { Dialog, DialogContent } from '@mui/material';
+import { Box, Dialog, DialogContent, Stack } from '@mui/material';
+import SelectGroupAgency from './Filters/SelectGroupAgency';
 
 const BestSellingTable = () => {
   const [productsData, setProductsData] = useState<TopSellingProduct[]>([]);
-  const [sucursalData, setSucursalData] = useState<TopSellingProductAgency[]>([]);
+  const [sucursalData, setSucursalData] = useState<TopSellingProductAgency[]>(
+    [],
+  );
   const [newMode, setNewMode] = useState(false);
   const [viewMode, setViewMode] = useState<'general' | 'sucursal'>('general');
+  const [selectedAgency, setSelectedAgency] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (viewMode === 'general') {
+        if (selectedAgency === 0) {
+          setViewMode('general');
           const response = await api.get('/detail-quotes/top-selling');
           setProductsData(response.data);
-        } else if (viewMode === 'sucursal') {
-          const response = await api.get('/detail-quotes/top-selling-agency');
+        } else {
+          setViewMode('sucursal');
+          const response = await api.get(
+            `/detail-quotes/top-selling-agency/${selectedAgency}`,
+          );
           setSucursalData(response.data);
         }
       } catch (error) {
@@ -29,40 +37,24 @@ const BestSellingTable = () => {
     };
 
     fetchData();
-  }, [viewMode]);
+  }, [selectedAgency]);
 
-  const handleNewProduct = () => {
-    setNewMode(true);
-  };
-
-  const handleViewChange = (view: 'general' | 'sucursal') => {
-    setViewMode(view);
+  const handleAgencyChange = (agency: number) => {
+    setSelectedAgency(agency);
   };
 
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <div className="flex flex-wrap items-start justify-between py-6 px-4 md:px-6 xl:px-7.5">
-          <div className="flex w-full max-w-45 justify-center">
-            <Link
-              to="#"
-              onClick={() => handleViewChange('general')}
-              className="inline-flex items-center justify-center rounded-md border border-meta-3 py-2 px-2 text-center font-medium text-meta-3 hover:bg-opacity-90 lg:px-3 xl:px-5"
-            >
-              General
-            </Link>
-          </div>
-          <h4 className="text-xl font-semibold text-black dark:text-white">Productos</h4>
-          <div className="flex w-full max-w-45 justify-center">
-            <Link
-              to="#"
-              onClick={() => handleViewChange('sucursal')}
-              className="inline-flex items-center justify-center rounded-md border border-meta-3 py-2 px-2 text-center font-medium text-meta-3 hover:bg-opacity-90 lg:px-3 xl:px-5"
-            >
-              Sucursal
-            </Link>
-          </div>
-        </div>
+        <Box sx={{ p: 3 }}>
+          <Stack
+            direction="row"
+            spacing={2}
+            sx={{ alignItems: 'center', flex: '1 1 auto', flexWrap: 'wrap' }}
+          >
+            <SelectGroupAgency onChange={handleAgencyChange} />
+          </Stack>
+        </Box>
 
         {viewMode === 'general' ? (
           <div>
@@ -87,14 +79,20 @@ const BestSellingTable = () => {
                     <div className="h-12.5 w-15 rounded-md">
                       <img src={ProductTwo} alt="Product" />
                     </div>
-                    <p className="text-sm text-black dark:text-white">{product.nombre_producto}</p>
+                    <p className="text-sm text-black dark:text-white">
+                      {product.nombre_producto}
+                    </p>
                   </div>
                 </div>
                 <div className="col-span-2 hidden items-center sm:flex">
-                  <p className="text-sm text-black dark:text-white">{product.total_vendido}</p>
+                  <p className="text-sm text-black dark:text-white">
+                    {product.total_vendido}
+                  </p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                  <p className="text-sm text-black dark:text-white">{product.id_producto}</p>
+                  <p className="text-sm text-black dark:text-white">
+                    {product.id_producto}
+                  </p>
                 </div>
               </div>
             ))}
@@ -102,7 +100,7 @@ const BestSellingTable = () => {
         ) : (
           <div>
             <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
-            <div className="col-span-2 flex items-center">
+              <div className="col-span-2 flex items-center">
                 <p className="font-medium">Producto</p>
               </div>
               <div className="col-span-2 hidden items-center sm:flex">
@@ -120,17 +118,25 @@ const BestSellingTable = () => {
                 className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
                 key={key}
               >
-                 <div className="col-span-2 hidden items-center sm:flex">
-                  <p className="text-sm text-black dark:text-white">{product.nombre_producto}</p>
+                <div className="col-span-2 hidden items-center sm:flex">
+                  <p className="text-sm text-black dark:text-white">
+                    {product.nombre_producto}
+                  </p>
                 </div>
                 <div className="col-span-2 hidden items-center sm:flex">
-                  <p className="text-sm text-black dark:text-white">{product.total_vendido}</p>
+                  <p className="text-sm text-black dark:text-white">
+                    {product.total_vendido}
+                  </p>
                 </div>
                 <div className="col-span-2 flex items-center">
-                  <p className="text-sm text-black dark:text-white">{product.id_producto}</p>
+                  <p className="text-sm text-black dark:text-white">
+                    {product.id_producto}
+                  </p>
                 </div>
                 <div className="col-span-2 flex items-center">
-                  <p className="text-sm text-black dark:text-white">{product.nombre_sucursal}</p>
+                  <p className="text-sm text-black dark:text-white">
+                    {product.nombre_sucursal}
+                  </p>
                 </div>
               </div>
             ))}
