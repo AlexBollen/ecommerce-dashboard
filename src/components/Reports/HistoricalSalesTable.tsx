@@ -1,73 +1,53 @@
 import { useEffect, useState } from 'react';
 import api from '../../utils/api';
 import { HistoricalSales } from '../../types/historicalSales';
-import { Link } from 'react-router-dom';
-import { Dialog, DialogContent } from '@mui/material';
+import { Dialog, DialogContent, Stack, Box } from '@mui/material';
+import SelectGroupAgency from './Filters/SelectGroupAgency';
 
 const HistoricalSalesTable = () => {
   const [productsData, setProductsData] = useState<HistoricalSales[]>([]);
   const [sucursalData, setSucursalData] = useState<HistoricalSales[]>([]);
-  const [newMode, setNewMode] = useState(false);
+  const [selectedAgency, setSelectedAgency] = useState(0); // Agencia seleccionada
   const [viewMode, setViewMode] = useState<'sucursal' | 'general'>('sucursal');
+  const [newMode, setNewMode] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (viewMode === 'sucursal') {
-          const response = await api.get('/quotes/historical-sales-agency');
-          setProductsData(response.data);
-        } else if (viewMode === 'general') {
+        if (selectedAgency === 0) {
+          setViewMode('general');
           const response = await api.get('/quotes/historical-sales-general');
           setSucursalData(response.data);
+        } else {
+          setViewMode('sucursal');
+          const response = await api.get(`/quotes/historical-sales-agency/${selectedAgency}`);
+          setProductsData(response.data);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
     fetchData();
-  }, [viewMode]);
+  }, [selectedAgency]);
 
-  const handleNewProduct = () => {
-    setNewMode(true);
-  };
-
-  const handleViewChange = (view: 'sucursal' | 'general') => {
-    setViewMode(view);
+  const handleAgencyChange = (agency: number) => {
+    setSelectedAgency(agency);
   };
 
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        {/* Header */}
-        <div className="flex flex-wrap items-start justify-between py-6 px-4 md:px-6 xl:px-7.5">
-          <div className="flex w-full max-w-45 justify-center">
-            <Link
-              to="#"
-              onClick={() => handleViewChange('sucursal')}
-              className="inline-flex items-center justify-center rounded-md border border-meta-3 py-2 px-2 text-center font-medium text-meta-3 hover:bg-opacity-90 lg:px-3 xl:px-5"
-            >
-              Sucursal
-            </Link>
-          </div>
-          <h4 className="text-xl font-semibold text-black dark:text-white">
-            {viewMode === 'sucursal' ? 'LOGS de transacciones por sucursal' : 'LOGS de transacciones en general'}
-          </h4>
-          <div className="flex w-full max-w-45 justify-center">
-            <Link
-              to="#"
-              onClick={() => handleViewChange('general')}
-              className="inline-flex items-center justify-center rounded-md border border-meta-3 py-2 px-2 text-center font-medium text-meta-3 hover:bg-opacity-90 lg:px-3 xl:px-5"
-            >
-              General
-            </Link>
-          </div>
-        </div>
+        {/* Encabezado con filtro */}
+        <Box sx={{ p: 3 }}>
+          <Stack direction="row" spacing={2} sx={{ alignItems: 'center', flex: '1 1 auto', flexWrap: 'wrap' }}>
+            <SelectGroupAgency onChange={handleAgencyChange} />
+          </Stack>
+        </Box>
 
-        {/* Content */}
+        {/* Contenido de la tabla */}
         {viewMode === 'sucursal' ? (
           <div>
-            {/* Header row */}
             <div className="grid grid-cols-[1fr,1fr,1fr,1fr] border-t border-stroke py-4.5 px-4 dark:border-strokedark">
               <div className="flex items-center">
                 <p className="font-medium">Usuario</p>
@@ -82,8 +62,6 @@ const HistoricalSalesTable = () => {
                 <p className="font-medium">Sucursal</p>
               </div>
             </div>
-
-            {/* Data rows */}
             {productsData.map((product, key) => (
               <div
                 className="grid grid-cols-[1fr,1fr,1fr,1fr] border-t border-stroke py-4.5 px-4 dark:border-strokedark"
@@ -106,7 +84,6 @@ const HistoricalSalesTable = () => {
           </div>
         ) : (
           <div>
-            {/* Header row */}
             <div className="grid grid-cols-[1fr,1fr,1fr,1fr] border-t border-stroke py-4.5 px-4 dark:border-strokedark">
               <div className="flex items-center">
                 <p className="font-medium">Usuario</p>
@@ -121,8 +98,6 @@ const HistoricalSalesTable = () => {
                 <p className="font-medium">Sucursal</p>
               </div>
             </div>
-
-            {/* Data rows */}
             {sucursalData.map((product, key) => (
               <div
                 className="grid grid-cols-[1fr,1fr,1fr,1fr] border-t border-stroke py-4.5 px-4 dark:border-strokedark"
@@ -148,11 +123,7 @@ const HistoricalSalesTable = () => {
 
       {/* Modal */}
       {newMode && (
-        <Dialog
-          open={newMode}
-          onClose={() => setNewMode(false)}
-          aria-labelledby="form-dialog-title"
-        >
+        <Dialog open={newMode} onClose={() => setNewMode(false)} aria-labelledby="form-dialog-title">
           <DialogContent>{/* Contenido del modal */}</DialogContent>
         </Dialog>
       )}
