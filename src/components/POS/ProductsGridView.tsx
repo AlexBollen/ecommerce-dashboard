@@ -22,7 +22,7 @@ export function ProductsGridView({
   onSelectProduct,
 }: ProductsGridViewProps) {
   const [productsData, setProductsData] = useState<ProductPos[]>([]);
-  const agency = localStorage.getItem('agency_employee')
+  const agency = localStorage.getItem('agency_employee');
   const agencyId = agency ? parseInt(agency, 10) : null;
 
   useEffect(() => {
@@ -35,7 +35,10 @@ export function ProductsGridView({
           (product: Omit<ProductPos, 'quantity'>) =>
             api
               .get(`/stocks/existencias_sucursal`, {
-                params: { id_producto: product.id_producto, id_sucursal: agencyId },
+                params: {
+                  id_producto: product.id_producto,
+                  id_sucursal: agencyId,
+                },
               })
               .then((existenceResponse) => ({
                 ...product,
@@ -91,6 +94,7 @@ export function ProductsGridView({
               >
                 <Tooltip title={`Disponible: ${product.existences} unidades`}>
                   <Card
+                    className="dark:bg-boxdark"
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -119,17 +123,17 @@ export function ProductsGridView({
                       />
                     )}
                     <CardContent>
-                      <Typography noWrap variant="subtitle2">
+                      <Typography noWrap variant="subtitle2"  className='text-black dark:text-white'>
                         {product.nombre_producto}
                       </Typography>
                       <Typography
-                        color="textSecondary"
+                         className='text-black dark:text-white'
                         variant="caption"
                         sx={{ whiteSpace: 'nowrap' }}
                       >
                         {product.nombre_categoria}
                       </Typography>
-                      <Typography color="textSecondary" variant="h6">
+                      <Typography  className='text-black dark:text-white' variant="h6">
                         {new Intl.NumberFormat('es-GT', {
                           style: 'currency',
                           currency: 'GTQ',
