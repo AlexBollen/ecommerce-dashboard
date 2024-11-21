@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../../utils/api';
 import { Product } from '../../types/product';
-import ProductTwo from '../../images/product/product-02.png';
 import ActionsMenu from './ActionsMenu';
 import { Link } from 'react-router-dom';
 import FormAdd from './FormAdd';
@@ -10,15 +9,43 @@ import { Dialog, DialogContent } from '@mui/material';
 const InventoryTable = () => {
   const [productsData, setProductsData] = useState<Product[]>([]);
   const [newMode, setNewMode] = useState(false);
+  const agency = localStorage.getItem('agency_employee');
+  const agencyId = agency ? parseInt(agency, 10) : null;
 
   useEffect(() => {
     api
       .get('/products')
-      .then((response) => {
-        setProductsData(response.data);
+      .then(async (response) => {
+        const products = response.data;
+
+        const productPromises = products.map(
+          (product: Omit<Product, 'existences'>) =>
+            api
+              .get(`/stocks/existencias_sucursal`, {
+                params: {
+                  id_producto: product.id_producto,
+                  id_sucursal: agencyId,
+                },
+              })
+              .then((existenceResponse) => ({
+                ...product,
+                existences: existenceResponse?.data ?? 0,
+              }))
+              .catch((error) => {
+                console.error(
+                  `Error obteniendo existencias de producto ${product.id_producto}`,
+                  error,
+                );
+                return { ...product, existences: 0, quantity: 1 };
+              }),
+        );
+
+        const productsWithExistences = await Promise.all(productPromises);
+
+        setProductsData(productsWithExistences);
       })
       .catch((error) => {
-        console.log(error);
+        console.error('Error obteniendo productos', error);
       });
   }, []);
 
@@ -68,9 +95,9 @@ const InventoryTable = () => {
             key={key}
           >
             <div className="col-span-3 flex items-center">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <div className="h-12.5 w-15 rounded-md">
-                  <img src={ProductTwo} alt="Product" />
+                  <img src={product.imagen} alt="Product" />
                 </div>
                 <p className="text-sm text-black dark:text-white">
                   {product.nombre_producto}
@@ -88,7 +115,7 @@ const InventoryTable = () => {
               </p>
             </div>
             <div className="col-span-1 flex items-center">
-              <p className="text-sm text-black dark:text-white">0</p>
+              <p className="text-sm text-black dark:text-white">{product.existences}</p>
             </div>
             <div className="flex items-center space-x-3.5">
               <ActionsMenu {...product} />
@@ -102,7 +129,7 @@ const InventoryTable = () => {
           onClose={() => setNewMode(false)}
           aria-labelledby="form-dialog-title"
         >
-          <DialogContent className='dark:bg-boxdark'>
+          <DialogContent className="dark:bg-boxdark">
             <FormAdd />
           </DialogContent>
         </Dialog>

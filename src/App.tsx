@@ -20,6 +20,7 @@ import ProtectedRoutes from './utils/ProtectedRoutes';
 import { NotFound } from './pages/Authentication/NotFound';
 import Inventory from './pages/Inventory/Inventory';
 import ProductTransfer from './pages/Product-Transfer/ProductTransfer';
+import NewProductTransfer from './pages/Product-Transfer/NewTransfer';
 import BestSellingProduct from './pages/Reports/BestSellingProduct';
 import LowQuantityProduct from './pages/Reports/LowQuantityProduct';
 import ProductByMonth from './pages/Reports/ProductByMounth';
@@ -29,6 +30,7 @@ import Users from './pages/Settings/Users';
 import SaleByDate from './pages/Reports/SaleByDate';
 import HistoricalSales from './pages/Reports/HistoricalSales';
 import Roles from './pages/Settings/Roles';
+import POS from './pages/POS/POS';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -65,7 +67,7 @@ function App() {
             index
             element={
               <>
-                <PageTitle title="Sign in | TailAdmin" />
+                <PageTitle title="Sign in | Store Online S.A." />
                 <SignIn />
               </>
             }
@@ -74,7 +76,7 @@ function App() {
             path="/dashboard"
             element={
               <>
-                <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="eCommerce Dashboard | Store Online S.A." />
                 <ECommerce />
               </>
             }
@@ -83,7 +85,7 @@ function App() {
             path="/calendar"
             element={
               <>
-                <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="Calendar | Store Online S.A." />
                 <Calendar />
               </>
             }
@@ -92,8 +94,17 @@ function App() {
             path="/profile"
             element={
               <>
-                <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="Profile | Store Online S.A." />
                 <Profile />
+              </>
+            }
+          />
+          <Route
+            path="/pos"
+            element={
+              <>
+                <PageTitle title="POS | Store Online S.A." />
+                <POS />
               </>
             }
           />
@@ -101,7 +112,7 @@ function App() {
             path="/forms/form-elements"
             element={
               <>
-                <PageTitle title="Form Elements | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="Form Elements | Store Online S.A." />
                 <FormElements />
               </>
             }
@@ -110,7 +121,7 @@ function App() {
             path="/forms/form-layout"
             element={
               <>
-                <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="Form Layout | Store Online S.A." />
                 <FormLayout />
               </>
             }
@@ -119,7 +130,7 @@ function App() {
             path="/tables"
             element={
               <>
-                <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="Tables | Store Online S.A." />
                 <Tables />
               </>
             }
@@ -128,7 +139,7 @@ function App() {
             path="/inventory"
             element={
               <>
-                <PageTitle title="Inventario | TailAdmin" />
+                <PageTitle title="Inventario | Store Online S.A." />
                 <Inventory />
               </>
             }
@@ -137,8 +148,17 @@ function App() {
             path="/productTransfer"
             element={
               <>
-                <PageTitle title="Transferencias Producto | TailAdmin" />
+                <PageTitle title="Transferencias Producto | Store Online S.A." />
                 <ProductTransfer />
+              </>
+            }
+          />
+          <Route
+            path="/newProductTransfer"
+            element={
+              <>
+                <PageTitle title="Nueva Transferencias Producto | TailAdmin" />
+                < NewProductTransfer/>
               </>
             }
           />
@@ -146,7 +166,7 @@ function App() {
             path="/settings"
             element={
               <>
-                <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="Settings | Store Online S.A." />
                 <Settings />
               </>
             }
@@ -177,7 +197,7 @@ function App() {
             path="/chart"
             element={
               <>
-                <PageTitle title="Basic Chart | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="Basic Chart | Store Online S.A." />
                 <Chart />
               </>
             }
@@ -186,7 +206,7 @@ function App() {
             path="/ui/alerts"
             element={
               <>
-                <PageTitle title="Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="Alerts | Store Online S.A." />
                 <Alerts />
               </>
             }
@@ -195,7 +215,7 @@ function App() {
             path="/ui/buttons"
             element={
               <>
-                <PageTitle title="Buttons | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="Buttons | Store Online S.A." />
                 <Buttons />
               </>
             }
@@ -204,7 +224,7 @@ function App() {
             path="/auth/signin"
             element={
               <>
-                <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="Signin | Store Online S.A." />
                 <SignIn />
               </>
             }
@@ -213,7 +233,7 @@ function App() {
             path="/auth/signup"
             element={
               <>
-                <PageTitle title="Signup | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PageTitle title="Signup | Store Online S.A." />
                 <SignUp />
               </>
             }
@@ -223,7 +243,7 @@ function App() {
               path="/BestSellingProduct"
               element={
                 <>
-                  <PageTitle title="Reporte uno | TailAdmin" />
+                  <PageTitle title="Reporte uno | Store Online S.A." />
                   <BestSellingProduct />
                 </>
               }
@@ -234,7 +254,7 @@ function App() {
               path="/LowQuantityProduct"
               element={
                 <>
-                  <PageTitle title="Reporte dos | TailAdmin" />
+                  <PageTitle title="Reporte dos | Store Online S.A." />
                   <LowQuantityProduct />
                 </>
               }
@@ -245,7 +265,7 @@ function App() {
               path="/ProductByMonth"
               element={
                 <>
-                  <PageTitle title="Reporte tres | TailAdmin" />
+                  <PageTitle title="Reporte tres | Store Online S.A." />
                   <ProductByMonth />
                 </>
               }
@@ -256,7 +276,7 @@ function App() {
               path="/ProductByMonthAndAgency"
               element={
                 <>
-                  <PageTitle title="Reporte cuatro | TailAdmin" />
+                  <PageTitle title="Reporte cuatro | Store Online S.A." />
                   <ProductByMonthAndAgency />
                 </>
               }
@@ -267,7 +287,7 @@ function App() {
               path="/BestCustomer"
               element={
                 <>
-                  <PageTitle title="Reporte cinco | TailAdmin" />
+                  <PageTitle title="Reporte cinco | Store Online S.A." />
                   <BestCustomer />
                 </>
               }
@@ -278,7 +298,7 @@ function App() {
               path="/SaleByDate"
               element={
                 <>
-                  <PageTitle title="Reporte seis | TailAdmin" />
+                  <PageTitle title="Reporte seis | Store Online S.A." />
                   <SaleByDate />
                 </>
               }
@@ -289,7 +309,7 @@ function App() {
               path="/HistoricalSales"
               element={
                 <>
-                  <PageTitle title="Reporte siete | TailAdmin" />
+                  <PageTitle title="Reporte siete | Store Online S.A." />
                   <HistoricalSales />
                 </>
               }
