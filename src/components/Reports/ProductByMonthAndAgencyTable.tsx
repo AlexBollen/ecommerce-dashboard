@@ -1,78 +1,51 @@
 import { useEffect, useState } from 'react';
 import api from '../../utils/api';
+
 import { ProductByMonthAndAgency } from '../../types/productByMonthAndAgency';
-import ProductTwo from '../../images/product/product-02.png';
 import SelectGroupAgencyAndMonth from './Filters/SelectGroupAgencyAndMonths';
-import { Box, Dialog, DialogContent, Stack } from '@mui/material';
+import { Dialog, DialogContent, Stack, Box } from '@mui/material';
 
 const ProductByMonthAndAgencyTable = () => {
   const [productsData, setProductsData] = useState<ProductByMonthAndAgency[]>([]);
   const [sucursalData, setSucursalData] = useState<ProductByMonthAndAgency[]>([]);
-  const [monthData, setMonthData] = useState<ProductByMonthAndAgency[]>([]);
   const [newMode, setNewMode] = useState(false);
-  const [viewMode, setViewMode] = useState<'general' | 'sucursal' | 'mes'>('general');
-  const [selectedAgency, setSelectedAgency] = useState(0);
+  const [viewMode, setViewMode] = useState<'sucursal' | 'mes'| 'general'>('sucursal');
+  const [selectedAgency, setSelectedAgency] = useState<number | string>(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let endpoint = '';
-        if (viewMode === 'general') {
-          endpoint = '/detail-quotes/month-product-summary-general';
-        } else if (viewMode === 'sucursal') {
-          endpoint = `/detail-quotes/month-product-summary-agency/${selectedAgency}`;
-        } else if (viewMode === 'mes') {
-          endpoint = '/detail-quotes/month-product-summary';
-        }
-        const response = await api.get(endpoint);
-
-        if (viewMode === 'general') {
-          setProductsData(response.data);
-        } else if (viewMode === 'sucursal') {
-          setSucursalData(response.data);
-        } else if (viewMode === 'mes') {
-          setMonthData(response.data);
+        if (selectedAgency === 0) {
+          setViewMode('general');
+          const response = await api.get('/detail-quotes/month-product-summary-general');
+          setSucursalData(response.data); 
+        } else if (selectedAgency === -1 ) {
+          setViewMode('mes'); 
+          const response = await api.get('/detail-quotes/month-product-summary');
+          setSucursalData(response.data); 
+        } else {
+          setViewMode('sucursal');
+          const response = await api.get(
+            `/detail-quotes/month-product-summary-agency/${selectedAgency}`
+          );
+          setProductsData(response.data); 
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.log(error);
       }
     };
 
     fetchData();
-  }, [viewMode, selectedAgency]);
+  }, [selectedAgency]);
 
-  const handleAgencyChange = (agency: number) => {
+  const handleAgencyChange = (agency: number | string) => {
     setSelectedAgency(agency);
-    setViewMode(agency === 0 ? 'general' : 'sucursal'); 
-  };
-
-  const renderProductData = (data: ProductByMonthAndAgency[]) => {
-    return data.map((product, key) => (
-      <div
-        className="grid grid-cols-3 border-t border-stroke py-4.5 px-6 dark:border-strokedark md:px-6 2xl:px-7.5"
-        key={key}
-      >
-        <div className="col-span-1 flex items-center">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-            <div className="h-12.5 w-15 rounded-md">
-              <img src={ProductTwo} alt="Product" />
-            </div>
-            <p className="text-sm text-black dark:text-white">{product.nombre_producto}</p>
-          </div>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="text-sm text-black dark:text-white">{product.mes}</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="text-sm text-black dark:text-white">{product.cantidad}</p>
-        </div>
-      </div>
-    ));
   };
 
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+    
         <Box sx={{ p: 3 }}>
           <Stack
             direction="row"
@@ -83,16 +56,86 @@ const ProductByMonthAndAgencyTable = () => {
           </Stack>
         </Box>
 
-        {viewMode === 'general' && renderProductData(productsData)}
-        {viewMode === 'sucursal' && renderProductData(sucursalData)}
-        {viewMode === 'mes' && renderProductData(monthData)}
+     
+        {viewMode === 'sucursal' ? (
+          <div>
+            <div className="grid grid-cols-[2fr,3fr,1fr] border-t border-stroke py-4.5 px-4 dark:border-strokedark">
+              <div className="flex items-center">
+                <p className="font-medium">Producto</p>
+              </div>
+              <div className="flex items-center">
+                <p className="font-medium">Mes</p>
+              </div>
+              <div className="flex items-center">
+                <p className="font-medium">Cantidad</p>
+              </div>
+            </div>
+            {productsData.map((product, key) => (
+              <div
+                className="grid grid-cols-[2fr,3fr,1fr] border-t border-stroke py-4.5 px-4 dark:border-strokedark"
+                key={key}
+              >
+                <div className="flex items-center">
+                  <p className="text-sm text-black dark:text-white">
+                    {product.nombre_producto}
+                  </p>
+                </div>
+                <div className="flex items-center">
+                  <p className="text-sm text-black dark:text-white">
+                    {product.mes}
+                  </p>
+                </div>
+                <div className="flex items-center">
+                  <p className="text-sm text-black dark:text-white">
+                    {product.cantidad}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div>
+            <div className="grid grid-cols-[2fr,3fr,1fr] border-t border-stroke py-4.5 px-4 dark:border-strokedark">
+              <div className="flex items-center">
+                <p className="font-medium">Producto</p>
+              </div>
+              <div className="flex items-center">
+                <p className="font-medium">Mes</p>
+              </div>
+              <div className="flex items-center">
+                <p className="font-medium">Cantidad</p>
+              </div>
+            </div>
+            {sucursalData.map((product, key) => (
+              <div
+                className="grid grid-cols-[2fr,3fr,1fr] border-t border-stroke py-4.5 px-4 dark:border-strokedark"
+                key={key}
+              >
+                <div className="flex items-center">
+                  <p className="text-sm text-black dark:text-white">
+                    {product.nombre_producto}
+                  </p>
+                </div>
+                <div className="flex items-center">
+                  <p className="text-sm text-black dark:text-white">
+                    {product.mes}
+                  </p>
+                </div>
+                <div className="flex items-center">
+                  <p className="text-sm text-black dark:text-white">
+                    {product.cantidad}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
+  
       {newMode && (
         <Dialog open={newMode} onClose={() => setNewMode(false)} aria-labelledby="form-dialog-title">
-          <DialogContent>
-            <p>Este es el contenido del modal.</p>
-          </DialogContent>
+          <DialogContent>{/* Contenido del modal */}</DialogContent>
         </Dialog>
       )}
     </>
