@@ -20,6 +20,7 @@ import ProtectedRoutes from './utils/ProtectedRoutes';
 import { NotFound } from './pages/Authentication/NotFound';
 import Inventory from './pages/Inventory/Inventory';
 import ProductTransfer from './pages/Product-Transfer/ProductTransfer';
+import NewProductTransfer from './pages/Product-Transfer/NewTransfer';
 import BestSellingProduct from './pages/Reports/BestSellingProduct';
 import LowQuantityProduct from './pages/Reports/LowQuantityProduct';
 import ProductByMonth from './pages/Reports/ProductByMounth';
@@ -149,6 +150,15 @@ function App() {
               <>
                 <PageTitle title="Transferencias Producto | Store Online S.A." />
                 <ProductTransfer />
+              </>
+            }
+          />
+          <Route
+            path="/newProductTransfer"
+            element={
+              <>
+                <PageTitle title="Nueva Transferencias Producto | TailAdmin" />
+                < NewProductTransfer/>
               </>
             }
           />
