@@ -54,10 +54,10 @@ export function ClientSelect({ onCustomerSelect }: ClientSelectProps) {
       </Button>
       <Grid container md={5} xs={6} direction={'column'} spacing={1}>
         <Grid2>
-          <Typography color="white" variant="h6" sx={{ textAlign: 'right' }}>
+          <Typography className='text-black dark:text-white' variant="h6" sx={{ textAlign: 'right' }}>
             {customerFinded?.nombre_cliente} - {customerFinded?.nit_cliente}
           </Typography>
-          <Typography color="white" variant="body1" sx={{ textAlign: 'right' }}>
+          <Typography className='text-black dark:text-white' variant="body1" sx={{ textAlign: 'right' }}>
             {customerFinded?.direccion_cliente}
           </Typography>
         </Grid2>

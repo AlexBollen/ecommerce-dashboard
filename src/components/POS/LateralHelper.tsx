@@ -127,7 +127,8 @@ export function PosLateralHelper({
             <Grid item md={6} xs={6}>
               <Typography
                 variant="h3"
-                sx={{ textAlign: 'left', color: 'white' }}
+                sx={{ textAlign: 'left' }}
+                className='text-black dark:text-white'
               >
                 {new Intl.NumberFormat('es-GT', {
                   style: 'currency',
@@ -155,19 +156,19 @@ export function PosLateralHelper({
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
                 <div className="col-span-1 flex items-center">
-                  <p className="font-medium text-white">#</p>
+                  <p className="font-medium text-black dark:text-white">#</p>
                 </div>
                 <div className="col-span-3 hidden items-center sm:flex">
-                  <p className="font-medium text-white">Producto</p>
+                  <p className="font-medium text-black dark:text-white">Producto</p>
                 </div>
                 <div className="col-span-2 flex items-center">
-                  <p className="font-medium text-white">Cantidad</p>
+                  <p className="font-medium text-black dark:text-white">Cantidad</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                  <p className="font-medium text-white">Precio</p>
+                  <p className="font-medium text-black dark:text-white">Precio</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                  <p className="font-medium text-white">Total</p>
+                  <p className="font-medium text-black dark:text-white">Total</p>
                 </div>
               </div>
 
