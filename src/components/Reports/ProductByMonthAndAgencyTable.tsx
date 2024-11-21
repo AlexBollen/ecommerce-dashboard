@@ -55,7 +55,7 @@ const ProductByMonthAndAgencyTable = () => {
         <div className="col-span-1 flex items-center">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
             <div className="h-12.5 w-15 rounded-md">
-              <img src={ProductTwo} alt="Product" />
+              <img src={product.imagen} alt="Product" />
             </div>
             <p className="text-sm text-black dark:text-white">{product.nombre_producto}</p>
           </div>
