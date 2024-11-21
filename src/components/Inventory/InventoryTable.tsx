@@ -8,15 +8,24 @@ import { Dialog, DialogContent } from '@mui/material';
 
 const InventoryTable = () => {
   const [productsData, setProductsData] = useState<Product[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
   const [newMode, setNewMode] = useState(false);
   const agency = localStorage.getItem('agency_employee');
   const agencyId = agency ? parseInt(agency, 10) : null;
+  const api_url = import.meta.env.VITE_API_URL
 
-  useEffect(() => {
+  const fetchUsers = async (page = 1) => {
     api
-      .get('/products')
+      .get('/products/productos_paginados', {
+        params: { page: page, limit: pageSize },
+      })
       .then(async (response) => {
-        const products = response.data;
+        const products = response.data.data;
+        setTotalPages(response.data.totalPages);
+        setCurrentPage(page);
+        console.log(response.data)
 
         const productPromises = products.map(
           (product: Omit<Product, 'existences'>) =>
@@ -29,6 +38,7 @@ const InventoryTable = () => {
               })
               .then((existenceResponse) => ({
                 ...product,
+                imagen: `${api_url}/${product.imagen}`,
                 existences: existenceResponse?.data ?? 0,
               }))
               .catch((error) => {
@@ -47,10 +57,18 @@ const InventoryTable = () => {
       .catch((error) => {
         console.error('Error obteniendo productos', error);
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    fetchUsers(currentPage);
+  }, [pageSize]);
 
   const handleNewProduct = async () => {
     setNewMode(true);
+  };
+
+  const handleCloseNewProduct = () => {
+    setNewMode(false);
   };
 
   return (
@@ -115,7 +133,9 @@ const InventoryTable = () => {
               </p>
             </div>
             <div className="col-span-1 flex items-center">
-              <p className="text-sm text-black dark:text-white">{product.existences}</p>
+              <p className="text-sm text-black dark:text-white">
+                {product.existences}
+              </p>
             </div>
             <div className="flex items-center space-x-3.5">
               <ActionsMenu {...product} />
@@ -123,6 +143,41 @@ const InventoryTable = () => {
           </div>
         ))}
       </div>
+
+      <div className="flex justify-between items-center py-4 w-100 ml-auto">
+        <div className="py-4">
+          <select
+            value={pageSize}
+            onChange={(e) => {
+              setPageSize(Number(e.target.value));
+              fetchUsers(1);
+            }}
+            className="border rounded px-2 py-1 dark:border-form-strokedark dark:bg-form-input"
+          >
+            <option value={1}>1</option>
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+          </select>
+        </div>
+        <button
+          disabled={currentPage === 1}
+          onClick={() => fetchUsers(currentPage - 1)}
+          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 dark:border-form-strokedark dark:bg-form-input"
+        >
+          Anterior
+        </button>
+        <p className="text-sm">
+          Página {currentPage} de {totalPages}
+        </p>
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => fetchUsers(currentPage + 1)}
+          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 dark:border-form-strokedark dark:bg-form-input"
+        >
+          Siguiente
+        </button>
+      </div>
+
       {newMode && (
         <Dialog
           open={newMode}
@@ -130,7 +185,10 @@ const InventoryTable = () => {
           aria-labelledby="form-dialog-title"
         >
           <DialogContent className="dark:bg-boxdark">
-            <FormAdd />
+            <FormAdd
+              // onActionComplete={fetchProducts}
+              onClose={handleCloseNewProduct}
+            />
           </DialogContent>
         </Dialog>
       )}

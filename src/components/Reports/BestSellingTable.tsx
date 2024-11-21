@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import api from '../../utils/api';
 import { TopSellingProduct } from '../../types/topSellingProduct';
 import { TopSellingProductAgency } from '../../types/topSellingProductAgency';
-import ProductTwo from '../../images/product/product-02.png';
 
 import { Box, Dialog, DialogContent, Stack } from '@mui/material';
 import SelectGroupAgency from './Filters/SelectGroupAgency';

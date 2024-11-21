@@ -6,3 +6,8 @@ export type BRAND = {
   sales: number;
   conversion: number;
 };
+
+export type Brand = {
+  id_marca: number;
+  nombre_marca: string;
+};
