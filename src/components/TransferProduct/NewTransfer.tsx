@@ -11,11 +11,13 @@ const NewTransfer = () => {
   const [AgenciesOfficies, setAgenciesOfficies] = useState([]);
   const [selectedAgency, setSelectedAgency] = useState<number | null>(null);
   const [transferStates, setTransferStates] = useState([]); 
-  //const [selectedState, setSelectedState] = useState<number | null>(null);
   const [details, setDetails] = useState<
     { productoIdProducto: number; nombre_producto: string; cantidadTransferida: number; id_stock: number }[]
   >([]);
-  const userId = localStorage.getItem('sub');
+  const userIdString = localStorage.getItem('sub'); 
+  const userId = userIdString ? parseInt(userIdString, 10) : null;
+
+  console.log(userId);
   const navigate = useNavigate(); 
 
   useEffect(() => {
@@ -48,14 +50,13 @@ const NewTransfer = () => {
 
   const getStockFromAPI = async (productId: number) => {
     try {
-      const response = await fetch(`http://localhost:3000/stocks/${productId}`);
-      if (!response.ok) {
+      const response = await api.get(`/stocks/stock/${productId}`);
+      if (response.status !== 200) {
         throw new Error(`Error al obtener el stock: ${response.status}`);
       }
-      const data = await response.json();
-      if (data && data.length > 0) {
-        console.log('Respuesta del stock API:', data);
-        return data[0];
+      if (response.data) {
+        console.log('Respuesta del stock API:', response.data);
+        return response.data;
       }
       return null;
     } catch (error) {
@@ -74,22 +75,14 @@ const NewTransfer = () => {
     );
   };
 
-  const handleProductSelection = async (productId: number) => {
-    const stockData = await getStockFromAPI(productId);
-    if (stockData) {
-      console.log(`Sucursal: ${stockData.sucursal}, Existencias: ${stockData.existencias}`);
-    } else {
-      console.log(`No se encontró stock para el producto con ID ${productId}`);
-    }
-  };
-
   const addProductToDetails = async (product: Product) => {
     const stockData = await getStockFromAPI(product.id_producto);
-    console.log("ID STOCK: "+ stockData.id_stock);
+    console.log(stockData);
     if (stockData) {
       setDetails((prevDetails) => {
+        const stock = parseInt(stockData.id_stock, 10);
+        console.log("ID STOCK:", stock);
         const exists = prevDetails.some((item) => item.productoIdProducto === product.id_producto);
-  
         if (exists) {
           return prevDetails.map((item) =>
             item.productoIdProducto === product.id_producto
@@ -103,7 +96,7 @@ const NewTransfer = () => {
           {
             productoIdProducto: product.id_producto,
             nombre_producto: product.nombre_producto,
-            id_stock: stockData.id_stock,
+            id_stock: stock,
             cantidadTransferida: 1,
           },
         ];
@@ -127,10 +120,6 @@ const NewTransfer = () => {
 
 
   const handleSubmit = () => {
-    /*if (!description || !selectedAgency || !selectedState) {
-      alert('Por favor completa todos los campos.');
-      return;
-    }*/
     if (!description || !selectedAgency) {
       alert('Por favor completa todos los campos.');
       return;
@@ -152,15 +141,13 @@ const NewTransfer = () => {
     api
       .post('/product-transfer', transferData)
       .then((response) => {
-        //console.log('Transferencia creada:', response.data);
         alert("Creada con éxito");
 
         setDescription('');
         setSelectedAgency(null);
-        //setSelectedState(null);
         setDetails([]);
 
-        navigate('/productTransfer'); // Regresamos al listado de transferencias
+        navigate('/productTransfer');
       })
       .catch((error) => {
         alert("Error al crear la transferencia: "+ error);
@@ -209,22 +196,6 @@ const NewTransfer = () => {
               </option>
             ))}
           </select>
-          {/*<select
-            value={selectedState || ''}
-            onChange={(e) => {
-              const stateId = Number(e.target.value);
-              setSelectedState(stateId);
-              //console.log('Estado de transferencia seleccionado:', stateId);
-            }}
-            className="w-full rounded-md border border-stroke px-4 py-2 dark:bg-gray-800 dark:text-white"
-          >
-            <option value="">Seleccionar estado de la transferencia</option>
-            {transferStates.map((state: any) => (
-              <option key={state.id_estado_transferencia} value={state.id_estado_transferencia}>
-                {state.nombre_estado_transferencia}
-              </option>
-            ))}
-          </select>*/}
         </div>
 
         {/* Productos */}
