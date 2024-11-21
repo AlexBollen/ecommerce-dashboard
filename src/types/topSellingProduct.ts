@@ -3,4 +3,5 @@ export interface TopSellingProduct {
     nombre_producto: string;
     total_vendido: number;
     nombre_categoria: string;
+    imagen: string;
   }

@@ -4,12 +4,24 @@ import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
 import api from '../../utils/api';
 import { useAuth } from '../../utils/AuthContext';
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
+interface State extends SnackbarOrigin {
+  open: boolean;
+}
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const { login } = useAuth();
+  const [state, setState] = React.useState<State>({
+    open: false,
+    vertical: 'bottom',
+    horizontal: 'right',
+  });
+  const { vertical, horizontal, open } = state;
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
@@ -24,14 +36,19 @@ const SignIn: React.FC = () => {
       localStorage.setItem('name', data.name);
       localStorage.setItem('role', data.role);
       localStorage.setItem('token', data.token);
-      localStorage.setItem('agency_employee', data.agency_employee)
+      localStorage.setItem('agency_employee', data.agency_employee);
       login(data.token);
       navigate('/dashboard');
     } catch (error: any) {
+      setState({ ...state, open: true });
       if (error.status === 401) {
         console.log(`Error: ${error.response.data.message}`);
       }
     }
+  };
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
   };
 
   return (
@@ -269,6 +286,22 @@ const SignIn: React.FC = () => {
           </div>
         </div>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        autoHideDuration={3000}
+        open={open}
+        key={vertical + horizontal}
+        onClose={handleClose}
+      >
+        <Alert
+          onClose={handleClose}
+          severity="error"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          Credenciales no válidas!
+        </Alert>
+      </Snackbar>
     </>
   );
 };
