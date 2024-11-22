@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import SelectGroupRole from './SelectGroupRole';
 import api from '../../utils/api';
+import SelectGroupAgency from '../Reports/Filters/SelectGroupAgency';
 
 const FormAddUser = ({
   onActionComplete,
@@ -10,12 +11,17 @@ const FormAddUser = ({
   onClose: () => void;
 }) => {
   const [selectedRole, setSelectedRole] = useState('');
+  const [selectedAgency, setSelectedAgency] = useState(0)
   const [nombreEmpleado, setNombreEmpleado] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleRoleChange = (role: string) => {
     setSelectedRole(role);
+  };
+
+  const handleAgencyChange = (agency: number) => {
+    setSelectedAgency(agency);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,6 +32,7 @@ const FormAddUser = ({
         username: username,
         password: password,
         id_rol: parseInt(selectedRole),
+        id_sucursal: selectedAgency
       };
       const response = await api.post('/auth/register', data);
       if (response.status === 201) {
@@ -73,6 +80,8 @@ const FormAddUser = ({
             </div>
 
             <SelectGroupRole onChange={handleRoleChange} />
+
+            <SelectGroupAgency onChange={handleAgencyChange} />
 
             <div className="mb-4.5">
               <label className="mb-2.5 block text-black dark:text-white">
