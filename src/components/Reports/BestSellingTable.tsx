@@ -14,6 +14,7 @@ const BestSellingTable = () => {
   const [newMode, setNewMode] = useState(false);
   const [viewMode, setViewMode] = useState<'general' | 'sucursal'>('general');
   const [selectedAgency, setSelectedAgency] = useState(0);
+  const api_url = import.meta.env.VITE_API_URL
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,7 +76,7 @@ const BestSellingTable = () => {
                 <div className="col-span-3 flex items-center">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                     <div className="h-12.5 w-15 rounded-md">
-                      <img src={product.imagen} alt="Product" />
+                      <img src={product.imagen.replace('http://localhost:3000', api_url)} alt="Product" />
                     </div>
                     <p className="text-sm text-black dark:text-white">
                       {product.nombre_producto}

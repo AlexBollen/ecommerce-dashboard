@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
 import axios from 'axios';
+import api from '../../utils/api';
 
 const SalesByProductChart: React.FC = () => {
   const [chartData, setChartData] = useState<{ series: any[]; months: string[] }>({
@@ -16,7 +17,7 @@ const SalesByProductChart: React.FC = () => {
 
   const fetchSalesData = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/detail-quotes/top-product-by-month');
+      const response = await api.get('detail-quotes/top-product-by-month');
       const salesData = response.data;
 
       const salesMap: { [productName: string]: number[] } = {};

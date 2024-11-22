@@ -5,6 +5,7 @@ import ProductTwo from '../../images/product/product-02.png';
 
 const LowQuantityTable = () => {
   const [productsData, setProductsData] = useState<LowQuantityProduct[]>([]);
+  const api_url = import.meta.env.VITE_API_URL
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,7 +54,7 @@ const LowQuantityTable = () => {
             <div className="col-span-3 flex items-center">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <div className="h-12.5 w-15 rounded-md">
-                  <img src={product.imagen} alt="Product" />
+                  <img src={product.imagen.replace('http://localhost:3000', api_url)} alt="Product" />
                 </div>
                 <p className="text-sm text-black dark:text-white">{product.id_producto}</p>
               </div>
