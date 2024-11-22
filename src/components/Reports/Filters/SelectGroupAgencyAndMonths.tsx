@@ -18,12 +18,12 @@ const SelectGroupAgencyAndMonth = ({
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(e.target.value);
     changeTextColor();
-    onChange(parseInt(e.target.value));  // Llama a la función `onChange` con el valor seleccionado
+    onChange(parseInt(e.target.value)); 
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await api.get('/agencies');  // Obtiene las agencias desde la API
+      const response = await api.get('/agencies');  
       setAgencies(response.data);
     };
     fetchData();

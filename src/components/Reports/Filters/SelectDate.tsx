@@ -3,8 +3,7 @@ import { useEffect } from 'react';
 
 const DatePickerOneReport = () => {
   useEffect(() => {
-    // Init flatpickr
-     flatpickr('.form-datepicker', {
+    flatpickr('.form-datepicker', {
       mode: 'single',
       static: true,
       monthSelectorType: 'static',
@@ -14,14 +13,12 @@ const DatePickerOneReport = () => {
       nextArrow:
         '<svg className="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M1.4 10.8L0 9.4l4-4-4-4L1.4 0l5.4 5.4z" /></svg>',
     });
-
-    
   }, []);
 
   return (
     <div>
       <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-        Select date
+        Seleccione rango de fechas
       </label>
       <div className="relative">
         <input
@@ -29,7 +26,6 @@ const DatePickerOneReport = () => {
           placeholder="mm/dd/yyyy"
           data-class="flatpickr-right"
         />
-
         <div className="pointer-events-none absolute inset-0 left-auto right-5 flex items-center">
           <svg
             width="18"
