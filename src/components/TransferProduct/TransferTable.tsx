@@ -3,6 +3,7 @@ import api from '../../utils/api';
 import { Link, useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogActions, DialogTitle } from '@mui/material';
 import TrashIcon from '../../icons/Trash';
+import CompleteIcon from '../../icons/Complete';
 
 interface TransferDetail {
   id_detalle_transferencia: number;
@@ -37,6 +38,10 @@ interface Transference {
     correo: string;
   };
 }
+const sucursalEntranteIdString = localStorage.getItem('agency_employee');
+  const sucursalentranteId = sucursalEntranteIdString
+    ? parseInt(sucursalEntranteIdString, 10)
+    : null;
 
 const TransferTable = () => {
   const [transferencesData, setTransferencesData] = useState<Transference[]>([]);
@@ -47,7 +52,7 @@ const TransferTable = () => {
 
   useEffect(() => {
     api
-      .get('/product-transfer')
+      .get(`/product-transfer/all/${sucursalentranteId}`)
       .then((response) => {
         setTransferencesData(response.data);
         setLoading(false);
@@ -63,6 +68,39 @@ const TransferTable = () => {
   const handleAddTransfer = () => {
     navigate('/newProductTransfer');
   };
+
+  const handleCompleteTransfer = async (id_transferencia: number) => {
+    try {
+      if (
+        window.confirm(
+          '¿Estás seguro de que deseas marcar esta transferencia como completada?'
+        )
+      ) {
+        await api.patch(`/product-transfer/${id_transferencia}/actualizar-estado-y-crear-stocks`);
+        alert('La transferencia se marcó como completada.');
+        
+        const response = await api.get(`/product-transfer/all/${sucursalentranteId}`);
+        setTransferencesData(response.data);
+        setTransferencesData((prev) =>
+          prev.map((transfer) =>
+            transfer.id_transferencia === id_transferencia
+              ? {
+                  ...transfer,
+                  id_estado_transferencia: {
+                    ...transfer.id_estado_transferencia,
+                    nombre_estado_transferencia: 'Completada',
+                  },
+                }
+              : transfer
+          )
+        );
+      }
+    } catch (error) {
+      console.error('Error al completar la transferencia:', error);
+      alert('Hubo un error al intentar completar la transferencia.');
+    }
+  };
+  
 
   const handleDeleteTransfer = async (id_transferencia: number) => {
     if (window.confirm('¿Estás seguro de que deseas eliminar esta transferencia?')) {
@@ -146,8 +184,8 @@ const TransferTable = () => {
           <div className="col-span-1 flex items-center">
             <p className="font-medium">Detalles</p>
           </div>
-          <div className="col-span-1 flex items-center">
-            <p className="font-medium">Eliminar</p>
+          <div className="col-span-1 flex items-right">
+            <p className="font-medium">Acciones</p>
           </div>
         </div>
 
@@ -186,13 +224,21 @@ const TransferTable = () => {
               </Link>
             </div>
             <div className="flex w-full max-w-45 justify-center">
-            <button
-              onClick={() => handleDeleteTransfer(transference.id_transferencia)}
-              className="hover:text-primary"
-            >
-              <TrashIcon />
-            </button>
-          </div>
+              <button
+                onClick={() => handleCompleteTransfer(transference.id_transferencia)}
+                className="hover:text-primary"
+              >
+                <CompleteIcon />
+              </button>
+            </div>
+            <div className="flex w-full max-w-45 justify-center">
+              <button
+                onClick={() => handleDeleteTransfer(transference.id_transferencia)}
+                className="hover:text-primary"
+              >
+                <TrashIcon />
+              </button>
+            </div>
           </div>
         ))}
       </div>
