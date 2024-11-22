@@ -52,7 +52,7 @@ const TransferTable = () => {
 
   useEffect(() => {
     api
-      .get(`/product-transfer/all/${sucursalentranteId}`)
+      .get(`/product-transfer/all/`)
       .then((response) => {
         setTransferencesData(response.data);
         setLoading(false);
@@ -79,7 +79,7 @@ const TransferTable = () => {
         await api.patch(`/product-transfer/${id_transferencia}/actualizar-estado-y-crear-stocks`);
         alert('La transferencia se marcó como completada.');
         
-        const response = await api.get(`/product-transfer/all/${sucursalentranteId}`);
+        const response = await api.get(`/product-transfer/all`);
         setTransferencesData(response.data);
         setTransferencesData((prev) =>
           prev.map((transfer) =>
