@@ -24,6 +24,7 @@ export function ProductsGridView({
   const [productsData, setProductsData] = useState<ProductPos[]>([]);
   const agency = localStorage.getItem('agency_employee');
   const agencyId = agency ? parseInt(agency, 10) : null;
+  const api_url = import.meta.env.VITE_API_URL
 
   useEffect(() => {
     api
@@ -42,6 +43,7 @@ export function ProductsGridView({
               })
               .then((existenceResponse) => ({
                 ...product,
+                imagen: product.imagen.replace('http://localhost:3000', api_url),
                 existences: existenceResponse?.data ?? 0,
                 quantity: 1,
               }))

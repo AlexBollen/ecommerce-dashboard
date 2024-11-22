@@ -37,7 +37,7 @@ const InventoryTable = () => {
               })
               .then((existenceResponse) => ({
                 ...product,
-                imagen: `${api_url}/${product.imagen}`,
+                imagen: product.imagen.replace('http://localhost:3000', api_url),
                 existences: existenceResponse?.data ?? 0,
               }))
               .catch((error) => {
