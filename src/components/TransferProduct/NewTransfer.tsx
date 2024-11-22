@@ -15,7 +15,15 @@ const NewTransfer = () => {
   const [details, setDetails] = useState<
     { productoIdProducto: number; nombre_producto: string; cantidadTransferida: number; id_stock: number }[]
   >([]);
-  const userId = localStorage.getItem('sub');
+
+  const userIdString = localStorage.getItem('sub'); 
+  const userId = userIdString ? parseInt(userIdString, 10) : null;
+
+  const sucursalEntranteIdString = localStorage.getItem('agency_employee'); 
+  const sucursalentranteId = sucursalEntranteIdString ? parseInt(sucursalEntranteIdString, 10) : null;
+
+  console.log(userId);
+  console.log("IdSucursal: "+sucursalentranteId);
   const navigate = useNavigate(); 
 
   useEffect(() => {
@@ -36,26 +44,17 @@ const NewTransfer = () => {
       })
       .catch((error) => console.log(error));
 
-    // Obtener estados de transferencia
-    api
-      .get('/transfer-states')
-      .then((response) => {
-        setTransferStates(response.data);
-      })
-      .catch((error) => console.log(error));
-
   }, []);
 
   const getStockFromAPI = async (productId: number) => {
     try {
-      const response = await fetch(`http://localhost:3000/stocks/${productId}`);
-      if (!response.ok) {
+      const response = await api.get(`/stocks/stock/${productId}`);
+      if (response.status !== 200) {
         throw new Error(`Error al obtener el stock: ${response.status}`);
       }
-      const data = await response.json();
-      if (data && data.length > 0) {
-        console.log('Respuesta del stock API:', data);
-        return data[0];
+      if (response.data) {
+        console.log('Respuesta del stock API:', response.data);
+        return response.data;
       }
       return null;
     } catch (error) {
@@ -63,6 +62,23 @@ const NewTransfer = () => {
       return null;
     }
   };
+
+  /*const getStockFromAPI = async (productId: number) => {
+    try {
+      const response = await api.get(`/stocks/stock/${productId}`);
+      if (response.status !== 200) {
+        throw new Error(`Error al obtener el stock: ${response.status}`);
+      }
+      if (response.data) {
+        console.log('Respuesta del stock API:', response.data);
+        return response.data;
+      }
+      return null;
+    } catch (error) {
+      console.error("Error al obtener el stock:", error);
+      return null;
+    }
+  };*/
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -85,11 +101,15 @@ const NewTransfer = () => {
 
   const addProductToDetails = async (product: Product) => {
     const stockData = await getStockFromAPI(product.id_producto);
-    console.log("ID STOCK: "+ stockData.id_stock);
+    console.log(stockData);
+    //const stockRecibido = stockData.id_stock; 
+    //const stock = stockRecibido ? parseInt(stockRecibido, 10) : null;
+    //console.log("ID STOCK: "+ stock);
     if (stockData) {
       setDetails((prevDetails) => {
+        const stock = parseInt(stockData.id_stock, 10); // Asegúrate de convertir a número si es necesario
+        console.log("ID STOCK:", stock);
         const exists = prevDetails.some((item) => item.productoIdProducto === product.id_producto);
-  
         if (exists) {
           return prevDetails.map((item) =>
             item.productoIdProducto === product.id_producto
@@ -103,7 +123,7 @@ const NewTransfer = () => {
           {
             productoIdProducto: product.id_producto,
             nombre_producto: product.nombre_producto,
-            id_stock: stockData.id_stock,
+            id_stock: stock,
             cantidadTransferida: 1,
           },
         ];
@@ -138,7 +158,7 @@ const NewTransfer = () => {
 
     const transferData = {
       descripcion_transferencia: description,
-      sucursal_Saliente: 1,
+      sucursal_Saliente: sucursalentranteId,
       sucursal_Entrante: selectedAgency,
       id_estado_transferencia: 2,
       id_usuario: userId,
