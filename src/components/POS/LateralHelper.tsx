@@ -34,6 +34,8 @@ export function PosLateralHelper({
   const [products, setProducts] = useState<ProductPos[]>([]);
   const user = localStorage.getItem('sub');
   const userId = user ? parseInt(user, 10) : null;
+  const agency = localStorage.getItem('agency_employee');
+  const agencyId = agency ? parseInt(agency, 10) : null;
   const [customer, setCustomer] = useState<Customer>();
   const navigate = useNavigate();
   const [state, setState] = useState<State>({
@@ -73,7 +75,7 @@ export function PosLateralHelper({
         const data = {
           monto_total: total,
           cliente: customer?.id_cliente ?? null,
-          sucursalId: 1,
+          sucursalId: agencyId,
           usuario: userId ?? null,
           lista_productos: products.map((product) => [
             product.id_producto,
@@ -128,7 +130,7 @@ export function PosLateralHelper({
               <Typography
                 variant="h3"
                 sx={{ textAlign: 'left' }}
-                className='text-black dark:text-white'
+                className="text-black dark:text-white"
               >
                 {new Intl.NumberFormat('es-GT', {
                   style: 'currency',
@@ -159,16 +161,24 @@ export function PosLateralHelper({
                   <p className="font-medium text-black dark:text-white">#</p>
                 </div>
                 <div className="col-span-3 hidden items-center sm:flex">
-                  <p className="font-medium text-black dark:text-white">Producto</p>
+                  <p className="font-medium text-black dark:text-white">
+                    Producto
+                  </p>
                 </div>
                 <div className="col-span-2 flex items-center">
-                  <p className="font-medium text-black dark:text-white">Cantidad</p>
+                  <p className="font-medium text-black dark:text-white">
+                    Cantidad
+                  </p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                  <p className="font-medium text-black dark:text-white">Precio</p>
+                  <p className="font-medium text-black dark:text-white">
+                    Precio
+                  </p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                  <p className="font-medium text-black dark:text-white">Total</p>
+                  <p className="font-medium text-black dark:text-white">
+                    Total
+                  </p>
                 </div>
               </div>
 

@@ -25,7 +25,6 @@ const InventoryTable = () => {
         const products = response.data.data;
         setTotalPages(response.data.totalPages);
         setCurrentPage(page);
-        console.log(response.data)
 
         const productPromises = products.map(
           (product: Omit<Product, 'existences'>) =>

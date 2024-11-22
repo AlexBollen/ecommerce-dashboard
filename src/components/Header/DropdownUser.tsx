@@ -15,6 +15,7 @@ const DropdownUser = () => {
     localStorage.removeItem('sub');
     localStorage.removeItem('name');
     localStorage.removeItem('role');
+    localStorage.removeItem('agency_employee')
     navigate('/');
   };
 
